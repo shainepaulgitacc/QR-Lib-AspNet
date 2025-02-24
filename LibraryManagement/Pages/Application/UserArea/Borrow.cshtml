@@ -1,0 +1,61 @@
+﻿@page
+@model LibraryManagement.Pages.Application.UserArea.BarrowModel
+@{
+    ViewData["Title"] = "Borrow";
+}
+<partial name="PartialViews/_ValidationMessage" />
+<partial name="_UserLogForm" model="new InputUserAttendanceModel()" />
+<vc:navigation current-page="StudentArea" />
+<div class="w-100 d-flex justify-content-center pt-5">
+    <div class="w-50 bg-white rounded-3 shadow p-4">
+        <h4 class="py-2 rounded-3 text-center bg-primary-subtle-custom fw-bolder text-primary">Fill Up To Borrow</h4>
+        <div class="mb-3">
+            <label class="mb-2 fw-bolder">Category</label><span class="fw-bolder text-danger">*</span>
+            <form id="form-filter" method="post" asp-page-handler="FCategory">
+                <select asp-for="Categ" class="form-select" id="category" asp-items="@Model.BookCategories.Select(x => new SelectListItem(x.CategoryName,x.Id.ToString()))">
+                </select>
+                <input type="hidden" asp-for="Id"/>
+            </form>
+        </div>
+        <form method="post">
+            <input type="hidden" asp-for="InputModel.BorrowTime" value="@DateTime.Now"/>
+            <input type="hidden" asp-for="InputModel.UserId" value="@Model.UserId"/>
+            <div class="mb-3">
+                <label asp-for="InputModel.Book" class="mb-2 fw-bolder"></label><span class="fw-bolder text-danger">*</span>
+                @if (Model.Books.Count() == 0)
+                {
+                     <input type="text" class="form-control" list="list-books" id="exampleDataList" placeholder="Type to search..." asp-for="InputModel.Book" disabled>
+                }
+                else
+                {
+                    <input type="text" class="form-control" list="list-books" id="exampleDataList" placeholder="Type to search..." asp-for="InputModel.Book">
+                }
+               
+                <datalist id="list-books">
+                    @if (Model.Books.Count() > 0)
+                    {
+                        foreach (var book in Model.Books)
+                        {
+                            <option value="@book.Title" />
+                        }
+                    }
+                </datalist>
+                <span asp-validation-for="InputModel.Book" class="text-danger"></span>
+            </div>
+            <div class="d-flex gap-3 justify-content-center">
+                <a asp-page="./Index" class="px-5 rounded-pill btn btn-outline-primary">
+                    Cancel
+                </a>
+                <button class="btn btn-primary px-5 rounded-pill">Borrow</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <partial name="PartialViews/_ValidationScriptsPartial" />
+    <script>
+        $("#category").on("change", function () {
+            $("#form-filter").submit();
+        })
+    </script>
+}

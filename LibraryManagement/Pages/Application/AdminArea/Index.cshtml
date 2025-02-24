@@ -1,0 +1,220 @@
+﻿@page
+@model LibraryManagement.Pages.Application.Admin.IndexModel
+@{
+    var bcVal = new DNVModel
+            {
+                PageName = "Dashboard",
+                LinkName = new (string linkName, string pageName, bool isCurrentPage)[] {
+            (null, "Dashboard", true)
+
+        }
+    };
+    ViewData["Title"] = "Dashboard";
+}
+<vc:navigation current-page="AdminArea"></vc:navigation>
+<vc:dashboard-navigation model="bcVal" />
+<div class="row">
+    <div class="col-4">
+        <div class=" gap-3 px-5 py-4 rounded-3 shadow-sm bg-white d-flex align-items-center mb-3">
+
+            <i class="fs-1 text-primary fa-solid fa-user-tie"></i>
+            <div class="w-100 d-flex align-items-center justify-content-between">
+                <div class="d-flex flex-column justify-content-center">
+                    <span class="fw-bolder fs-3">@Model.CountEmployees</span>
+                    <span class="text-secondary">Employees</span>
+                </div>
+                <div class="d-flex justify-content-center flex-column align-items-center">
+                    <div>
+                        <a asp-page="./EmployeeManagement/Index" class="btn btn-outline-primary py-2 rounded-circle"><i class=" fs-5 fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <span class="text-primary">Go to page</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-4">
+        <div class=" gap-3 px-5 py-4 rounded-3 shadow-sm bg-white d-flex align-items-center mb-3">
+            <i class="fa-solid fa-user text-primary fs-1"></i>
+            <div class="w-100 d-flex align-items-center justify-content-between">
+                <div class="d-flex flex-column justify-content-center">
+                    <span class="fw-bolder fs-3">@Model.CountUsers</span>
+                    <span class="text-secondary">Users</span>
+                </div>
+                <div class="d-flex justify-content-center flex-column align-items-center">
+                    <div>
+                        <a asp-page="./UserManagement/Index" class="btn btn-outline-primary py-2 rounded-circle"><i class=" fs-5 fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <span class="text-primary">Go to page</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-4">
+        <div class=" gap-3 px-5 py-4 bg-white rounded-3 shadow-sm d-flex align-items-center mb-3">
+            <i class="fa-solid fa-book text-primary fs-1"></i>
+            <div class="w-100 d-flex align-items-center justify-content-between">
+                <div class="d-flex flex-column justify-content-center">
+                    <span class="fw-bolder fs-3">@Model.CountBooks</span>
+                    <span class="text-secondary">Books</span>
+                </div>
+                <div class="d-flex justify-content-center flex-column align-items-center">
+                    <div>
+                        <a asp-page="./BookCategoryManagement/Index" class="btn btn-outline-primary py-2 rounded-circle"><i class=" fs-5 fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <span class="text-primary">Go to page</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+      <div class="col-6">
+        <div class="mb-3 bg-white shadow-sm rounded-3" style="height: 200px">
+            <div class="border-bottom p-3 d-flex justify-content-between align-items-center">
+                <span class="fw-bolder">Employee  attendance today</span>
+               
+            </div>
+            <div class="d-flex gap-2 py-3 flex-column align-items-center">
+                <a asp-page="./EmployeeAttendance/Index" class="btn-primary btn mt-2">See attendance sheet <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="mb-3 bg-white shadow-sm rounded-3">
+            <div class="border-bottom p-3 d-flex justify-content-between align-items-center">
+                <span class="fw-bolder">Book borrowed today</span>
+
+            </div>
+            <div class="d-flex gap-2 py-3 flex-column align-items-center">
+                <span class="text-center fs-1 p-4 rounded-circle borders border-2 border-opacity-75 border-primary">Total @Model.CountBorrowToday#</span>
+                <a asp-page="./BorrowedBookManagement/Index" class="btn btn-primary mt-2">Book borrowed management <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="mb-3 bg-white shadow-sm rounded-3">
+            <div class=" border-bottom p-3 d-flex justify-content-between align-items-center">
+                <span class="fw-bolder">Statistics for daily users</span>
+            </div>
+            <div class="d-flex gap-2 py-3 justify-content-center align-items-center">
+                <span class="text-primary fw-bolder">Go to page</span>
+                <a asp-page="./StatisticsDailyUser/Index" class="rounded-circle btn-outline-primary btn mt-2"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
+        <div class="mb-3 bg-white shadow-sm rounded-3">
+            <div class=" border-bottom p-3 d-flex justify-content-between align-items-center">
+                <span class="fw-bolder">Statistics of borrowed materials</span>
+            </div>
+            <div class="d-flex gap-2 py-3 justify-content-center align-items-center">
+                <span class="text-primary fw-bolder">Go to page</span>
+                <a asp-page="./StatisticsDailyUser/StatisticsByCategory" class="rounded-circle btn-outline-primary btn mt-2"><i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>  
+    </div>
+    <div class="col-6">
+        <div class="mb-3 bg-white shadow-sm rounded-3 h-75">
+            <div class=" border-bottom p-3 d-flex justify-content-between align-items-center">
+                <span class="fw-bolder">Best User Ranking</span>
+            </div>
+            <div class="d-flex gap-2 py-3 flex-column  justify-content-center align-items-center">
+                <h2><i class="fa-solid fa-award fs-1 text-warning"></i> Top 10 Best Users</h2>
+               <div class="d-flex align-items-center gap-2">
+                   
+                    @if (Model.UsersLogs.Count() > 0)
+                    {
+                        <span class="text-primary fw-bolder">Go to page</span>
+                        <a asp-page="./BestUser/Index" class="rounded-circle btn-outline-primary btn mt-2"><i class="fa-solid fa-arrow-right"></i></a>
+                    }
+                    else
+                    {
+                        <em class="text-secondary">(nothing record)</em>
+
+                    }
+               </div>
+               
+
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="bg-white shadow-sm rounded-3 p-3 table-height">
+            <div class="d-flex justify-content-between align-items-center px-2 pb-3 border-2 border-secondary border-opacity-50 border-bottom">
+                <span class="text-secondary fw-bolder">User Login Today</span>
+                <span class="text-secondary fw-bolder">Total <span id="countUserLogToday">@(Model.CountUsersLoginToday)</span>#.</span>
+            </div>
+            <table id="stAttendanceTable"
+                   data-toggle="table"
+                   data-search="true"
+                   data-pagination="true"
+                   data-side-pagination="client"
+                   data-page-size="5"
+                   data-page-list="[5,10,25,50,100,All]">
+                <thead>
+                    <tr>
+                        <th data-sortable="true">User Name</th>
+                        <th data-sortable="true">Type of users</th>
+                        <th data-sortable="true">Time In</th>
+                        <th data-sortable="true">Time Out</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var userAttendance in Model.UsersLogs)
+                    { 
+                    <tr>
+                        <td>@userAttendance.User.FirstName @userAttendance.User.MiddleName @userAttendance.User.LastName</td>
+                        <td>@userAttendance.User.UserType</td>
+                        <td>@userAttendance.UserLog.TimeIn.ToString("hh:mm:ss tt")</td>
+                        <td>
+                            @userAttendance.UserLog.TimeOut?.ToString("hh:mm:ss tt")
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <div class="col-6">
+        <div class="bg-white shadow-sm rounded-3 p-3 table-height">
+            <div class="d-flex justify-content-between align-items-center px-2 pb-3 border-2 border-secondary border-opacity-50 border-bottom">
+                <span class="text-secondary fw-bolder">Employee Login Today</span>
+                <span class="text-secondary fw-bolder">Total @(Model.CountEmployeesLoginToday)#.</span>
+            </div>
+            <table id="empAttendanceTable"
+                   data-toggle="table"
+                   data-search="true"
+                   data-pagination="true"
+                   data-side-pagination="client"
+                   data-page-size="5"
+                   data-page-list="[5,10,25,50,100,All]">
+                <thead>
+                    <tr>
+                        <th data-sortable="true">Employee Name</th>
+                        <th data-sortable="true">Time In</th>
+                        <th data-sortable="true">Time Out</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var empAttendance in Model.EmployeeAttendanceList)
+                    {
+                            <tr>
+                            <td>@($"{empAttendance.Employee.FirstName} {empAttendance.Employee.LastName}")</td>
+                                <td>@empAttendance.EmpAttendance.TimeIn.ToString("hh:mm:ss tt")</td>
+                                <td>
+                                    @empAttendance.EmpAttendance.TimeOut?.ToString("hh:mm:ss tt")
+                                </td>
+                            </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script src="~/js/ReceiverSignalR.js"></script>
+}

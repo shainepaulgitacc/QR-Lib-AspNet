@@ -1,0 +1,29 @@
+﻿@model CurrentPage
+<div class="d-flex justify-content-between mb-5 align-items-center">
+    <div class="d-flex gap-4">
+        <a asp-page="/Application/UserArea/Index" class=" text-decoration-none shadow-sm menus @(Model == CurrentPage.StudentArea? "text-white bg-primary":"text-secondary bg-white")  px-2 py-1 rounded">
+            <i class="fa-solid fa-user"></i>
+            <span>
+               User Area
+            </span>
+        </a>
+        <a asp-page="/Application/EmployeeArea/Index" class=" text-decoration-none menus shadow-sm text-nowrap @(Model == CurrentPage.EmployeeArea? "text-white bg-primary":"text-secondary bg-white") px-2 py-1 rounded">
+            <i class="fa-solid fa-user-tie"></i>
+            <span>
+                Employee Area
+            </span>
+        </a>
+        <a asp-page="/Application/AdminArea/Index" class=" text-decoration-none menus shadow-sm text-nowrap @(Model == CurrentPage.AdminArea? "text-white bg-primary":"text-secondary bg-white") px-2 py-1 rounded">
+            <i class="fa-solid fa-user-gear"></i>
+            <span>
+                Admin Area
+            </span>
+        </a>
+    </div>
+    <div class="d-flex gap-3">
+        <a href="mailto:shainepaulm@gmail.com" class="text-decoration-none text-secondary text-decoration-underline">
+            <i class="fa-solid fa-envelope"></i>
+           Message us
+        </a>
+    </div>
+</div>

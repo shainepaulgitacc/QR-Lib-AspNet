@@ -1,0 +1,168 @@
+﻿@page
+@model LibraryManagement.Pages.Application.AdminArea.EmployeeAttendance.IndexModel
+@{
+    var bcVal = new DNVModel
+            {
+                PageName = "Employee Attendance",
+                LinkName = new (string linkName, string pageName, bool isCurrentPage)[]
+                                {
+            ("/Application/AdminArea/Index","Dashboard",false),
+            (null,"Attendance Sheet",true)
+                                }
+            };
+    ViewData["Title"] = "Employee Attendance";
+}
+<vc:dashboard-navigation model="bcVal" />
+<partial name="PartialViews/_ValidationMessage" />
+<form method="post" asp-page-handler="FilterAttendance">
+    <div class="d-flex justify-content-center align-items-center gap-2 px-5 mb-4">
+        <div class="input-group">
+            <span class="input-group-text fw-bolder">Year</span>
+            <select asp-for="InputModel.Year" class="form-select" asp-items="@Model.Years.Select(x => new SelectListItem(x.ToString(),x.ToString()))">
+            </select>
+        </div>
+        <div class="input-group">
+            <span class="input-group-text fw-bolder">Month</span>
+            <select asp-for="InputModel.Month" class="form-select" asp-items="@Html.GetEnumSelectList<MonthsInYear>()"></select>
+        </div>
+        <div class="input-group">
+            <span class="input-group-text fw-bolder">Week</span>
+            <select asp-for="InputModel.Week" class="form-select" asp-items="@Html.GetEnumSelectList<WeeksInMonth>()"></select>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success text-nowrap">Filtered <i class="fa-solid fa-filter"></i></button>
+        </div>
+    </div>
+</form>
+
+<div class="d-flex align-items-center justify-content-end gap-2 mb-2">
+        <button id="btn-export-excel" class="btn btn-info text-white rounded-3"><i class="fa-regular fa-file-excel"></i></button>
+</div>
+<div class=" bg-white rounded-3 shadow px-4 py-3">
+    <table id="exportTable"
+           data-toggle="table"
+           data-search="true"
+           data-pagination="true"
+           data-side-pagination="client"
+           data-page-size="5"
+           data-page-list="[5,10,25,50,100,All]">
+        <thead>
+            <tr>
+                <th data-sortable="true">Employee Id</th>
+                <th data-sortable="true">Employee Name</th>
+                <th data-sortable="true">Sunday</th>
+                <th data-sortable="true">Monday</th>
+                <th data-sortable="true">Tuesday</th>
+                <th data-sortable="true">Wednesday</th>
+                <th data-sortable="true">Thursday</th>
+                <th data-sortable="true">Friday</th>
+                <th data-sortable="true">Saturday</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach(var attendance in Model.AttendanceThisWeek)
+            {
+                <tr>
+                    <td>@attendance.EmployeeId</td>
+                    <td>@attendance.EmployeeName</td>
+                    <td class="text-nowrap">
+                        @if(attendance.Sunday != null)
+                        {
+                            @foreach (var atten in attendance.Sunday)
+                            {
+                                <span> @atten.EmpAttendance.TimeIn.ToString("hh:mm tt") - @atten.EmpAttendance.TimeOut?.ToString("hh:mm tt")</span><br />
+                            }
+                        }
+                       
+                       
+                   </td>
+                    <td class="text-nowrap">
+                        @if (attendance.Monday != null)
+                        {
+                            @foreach (var atten in attendance.Monday)
+                            {
+                                <span> @atten.EmpAttendance.TimeIn.ToString("hh:mm tt") - @atten.EmpAttendance.TimeOut?.ToString("hh:mm tt")</span>
+
+                                <br />
+                            }
+                        }
+
+                    </td>
+                    <td class="text-nowrap">
+                        @if (attendance.Tuesday != null)
+                        {
+                            @foreach (var atten in attendance.Tuesday)
+                            {
+                                <span> @atten.EmpAttendance.TimeIn.ToString("hh:mm tt") - @atten.EmpAttendance.TimeOut?.ToString("hh:mm tt")</span>
+
+                                <br />
+                            }
+                        }
+
+
+                    </td>
+                    <td class="text-nowrap">
+                        @if (attendance.Wednesday != null)
+                        {
+                            @foreach (var atten in attendance.Wednesday)
+                            {
+                                <span> @atten.EmpAttendance.TimeIn.ToString("hh:mm tt") - @atten.EmpAttendance.TimeOut?.ToString("hh:mm tt")</span>
+
+                                <br />
+                            }
+                        }
+
+
+                    </td>
+                    <td class="text-nowrap">
+                        @if (attendance.Thursday != null)
+                        {
+                            @foreach (var atten in attendance.Thursday)
+                            {
+                                <span> @atten.EmpAttendance.TimeIn.ToString("hh:mm tt") - @atten.EmpAttendance.TimeOut?.ToString("hh:mm tt")</span>
+
+                                <br />
+                            }
+                        }
+
+
+                    </td>
+                    <td class="text-nowrap">
+                        @if (attendance.Friday != null)
+                        {
+                            @foreach (var atten in attendance.Friday)
+                            {
+                                <span> @atten.EmpAttendance.TimeIn.ToString("hh:mm tt") - @atten.EmpAttendance.TimeOut?.ToString("hh:mm tt")</span>
+
+                                <br />
+                            }
+                        }
+
+
+                    </td>
+                    <td class="text-nowrap">
+                        @if (attendance.Saturday != null)
+                        {
+                            @foreach (var atten in attendance.Saturday)
+                            {
+                                <span> @atten.EmpAttendance.TimeIn.ToString("hh:mm tt") - @atten.EmpAttendance.TimeOut?.ToString("hh:mm tt")</span>
+
+                                <br />
+                            }
+                        }
+
+
+                    </td>
+                    @*
+                <td>Total: <span class="fw-bolder">@attendance.Present</span></td>
+                <td class="fw-bolder">@attendance.Percentage.ToString("F2")%</td>
+                    *@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+    <script src="~/js/table2excel.js" asp-append-version="true"></script>
+    <script src="~/js/ExportToExcel2.js" asp-append-version="true"></script>
+}

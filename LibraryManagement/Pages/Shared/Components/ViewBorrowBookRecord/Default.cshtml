@@ -1,0 +1,61 @@
+﻿@model BorrowedBooksViewModel
+<div class="modal fade" id="borrow-rec-view-@(Model.BorrowBook.Id)">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary-subtle-custom">
+                <h5>Borrow Information</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body container p-5">
+                <div class="row">
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Full Name: <span class="fw-lighter">@Model.User.FirstName @Model.User.MiddleName @Model.User.LastName</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Type of user: <span class="fw-lighter">@Model.User.UserType</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Book title: <span class="fw-lighter">@Model.Book.Title</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Book category/Class No: <span class="fw-lighter">@Model.CategoryName</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Accession No : <span class="fw-lighter">@Model.Book.AccessionNumber</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Edition: <span class="fw-lighter">@Model.Book.Edition</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Volumes: <span class="fw-lighter">@Model.Book.Volume</span></span>
+                    </div>
+                     <div class="col-6 mb-2">
+                        <span class="fw-bolder">Pages: <span class="fw-lighter">@Model.Book.Pages</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Copies: <span class="fw-lighter">@Model.Book.Copies</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Source of fund: <span class="fw-lighter">@Model.Book.SourceOfFund</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Publisher: <span class="fw-lighter">@Model.Book.Publisher</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Year: <span class="fw-lighter">@Model.Book.Year</span></span>
+                    </div>
+                    
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Time borrowed: <span class="fw-lighter">@Model.BorrowBook.BorrowTime.ToString("hh:mm tt")</span></span>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <span class="fw-bolder">Time returned: <span class="fw-lighter">@(Model.BorrowBook.Returned != null ? Model.BorrowBook.Returned?.ToString("hh:mm tt"):"Not yet returned")</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-primary-subtle p-0 py-2">
+
+            </div>
+        </div>
+    </div>
+</div>

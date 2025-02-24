@@ -1,0 +1,62 @@
+﻿@page
+@model LibraryManagement.Pages.Application.AdminArea.BookCategoryManagement.CategoryManagementModel
+@{
+    var bcVal = new DNVModel
+            {
+                PageName = "Book Category",
+                LinkName = new (string linkName, string pageName, bool isCurrentPage)[]
+                                        {
+            ("/Application/AdminArea/Index","Dashboard",false),
+             ("./Index","Book Management",false),
+            (null,"Book Category Management",true)
+                                        }
+            };
+    ViewData["Title"] = "Book Category";
+}
+<vc:dashboard-navigation model="bcVal" />
+<partial name="PartialViews/_ValidationMessage" />
+<div class="d-flex align-items-center justify-content-between mb-2">
+    <button data-bs-target="#bookCategoryModalAdd" data-bs-toggle="modal" class="btn btn-primary rounded-pill px-4">Add New Category <i class="fa-solid fa-plus"></i></button>
+    <partial name="_AddBookCategory" model="new InputBookCategoryModel()"/>
+    
+</div>
+<div class=" bg-white rounded-3 shadow px-4 py-3">
+    <table id="exportTable"
+           data-toggle="table"
+           data-search="true"
+           data-pagination="true"
+           data-side-pagination="client"
+           data-page-size="5"
+           data-page-list="[5,10,25,50,100,All]">
+        <thead>
+            <tr>
+                <th data-sortable="true">Id</th>
+                <th data-sortable="true">Category Name</th>
+                <th data-sortable="true">AddedAt/UpdateAt</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach(var bookrecord in Model.Records)
+            {
+                <tr>
+                    <td>@bookrecord.Id</td>
+                    <td>@bookrecord.CategoryName</td>
+                    <td>@bookrecord.AddedAt.ToString("yyy/MM/dd") <b>-</b> @bookrecord.LastUpdatedAt.ToString("yyy/MM/dd")</td>
+                    <td>
+                        <div class="text-nowrap">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#bookCategoryUpdateModal_@(bookrecord.Id)" class="btn btn-success rounded-4 "><i class="fa-solid fa-pen-to-square"></i></button>
+                            <vc:update-book-category Id="bookrecord.Id"/>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal_@(bookrecord.Id)" class="btn btn-danger rounded-4"><i class="fa-solid fa-trash-can"></i></button>
+                            <partial name="PartialViews/_DeleteRecIdInt" model="bookrecord.Id" />
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    <partial name="PartialViews/_ValidationScriptsPartial" />
+
+}

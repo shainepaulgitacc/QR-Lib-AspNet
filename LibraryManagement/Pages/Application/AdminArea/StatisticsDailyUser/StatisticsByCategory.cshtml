@@ -1,0 +1,76 @@
+﻿@page
+@model LibraryManagement.Pages.Application.AdminArea.StatisticsDailyUser.StatisticsByCategoryModel
+@{
+    var bcVal = new DNVModel
+            {
+                PageName = "Statistics of borrowed materials",
+                LinkName = new (string linkName, string pageName, bool isCurrentPage)[]
+                                                {
+            ("/Application/AdminArea/Index","Dashboard",false),
+            (null,"Statistics of borrowed materials Management",true)               }
+            };
+    ViewData["Title"] = "Statistics of borrowed materials";
+}
+<vc:dashboard-navigation model="bcVal" />
+<partial name="PartialViews/_ValidationMessage" />
+<form method="post">
+    <div class="d-flex justify-content-center align-items-center gap-2 px-5 mb-4">
+        <div class="input-group">
+            <span class="input-group-text fw-bolder">Year</span>
+            <select asp-for="InputModel.Year" class="form-select" asp-items="@Model.Years.Select(x => new SelectListItem(x.ToString(),x.ToString()))">
+            </select>
+        </div>
+        <div class="input-group">
+            <span class="input-group-text fw-bolder">Month</span>
+            <select asp-for="InputModel.Month" class="form-select" asp-items="@Html.GetEnumSelectList<MonthsInYear>()"></select>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success text-nowrap">Filtered <i class="fa-solid fa-filter"></i></button>
+        </div>
+    </div>
+</form>
+<div class="d-flex align-items-center justify-content-end gap-2 mb-2">
+    <button id="btn-export-excel" class="btn btn-info text-white rounded-3"><i class="fa-regular fa-file-excel"></i></button>
+</div>
+<div class=" bg-white rounded-3 shadow px-4 py-3">
+    <table id="exportTable"
+           data-toggle="table"
+           data-search="true"
+           data-pagination="true"
+           data-side-pagination="client"
+           data-page-size="5"
+           data-page-list="[5,10,25,50,100,All]">
+        <thead>
+            <tr>
+                <th data-sortable="true">Courses</th>
+                @foreach (var category in Model.BookCategories)
+                {
+                    <th data-sortable="true">@category.CategoryName</th>
+                }
+                <th data-sortable="true">Total</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @{
+                if (Model.Records.Count() > 0)
+                {
+                    foreach (var record in Model.Records)
+                    {
+                        <tr>
+                            <td>@record.Course</td>
+                             @foreach(var rec in record.CountBorrowed){
+                                 <td>@rec</td>
+                             }
+                            <td><b>@record.Total</b></td>
+                           
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    <script src="~/js/table2excel.js" asp-append-version="true"></script>
+    <script src="~/js/ExportToExcel2.js" asp-append-version="true"></script>
+}

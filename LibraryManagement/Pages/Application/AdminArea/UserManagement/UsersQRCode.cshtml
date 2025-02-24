@@ -1,0 +1,38 @@
+﻿@page
+@model LibraryManagement.Pages.Application.AdminArea.StudentManagement.StudentsQRCodeModel
+@{
+    var bcVal = new DNVModel
+            {
+                PageName = "User",
+                LinkName = new (string linkName, string pageName, bool isCurrentPage)[]
+                        {
+            ("/Application/AdminArea/Index","Dashboard",false),
+            ("./Index","Student Management",false),
+            (null,"Students QR-Code",true)
+                        }
+            };
+    ViewData["Title"] = "QR-Codes";
+}
+<vc:dashboard-navigation model="bcVal" />
+<partial name="PartialViews/_ValidationMessage" />
+<div class="d-flex justify-content-end align-items-center gap-2 mb-2">
+    <button id="btn-export-pdf" class="btn btn-info text-white rounded-3"><i class="fa-regular fa-file-pdf"></i></button>
+</div>
+<div class="bg-white rounded-3 shadow py-3 px-4">
+    <div class="row" id="qr-codes">
+        @foreach(var qrcode in Model.QRCodes)
+        {
+            <div class="col-3 border border-1">
+                <div class="py-3 px-2 d-flex flex-column gap-2 justify-content-center align-items-center">
+                    <img src="@qrcode.QRCode" width="150" height="150" />
+                    <span class="text-center d-block">@qrcode.Name</span>
+                    <span class="text-center d-block">@qrcode.Id</span>
+                </div>
+            </div>
+        }
+       
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/PrintQR-Codes.js"></script>
+}

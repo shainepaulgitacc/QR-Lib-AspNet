@@ -1,0 +1,41 @@
+﻿@using LibraryManagement.Model.Infrastracture.Contracts;
+@model RecordSelectedInputModel
+@inject IEmployeeRepository repo
+@{
+    var employees = await repo.GetAllRecords();
+}
+<div class="modal fade" data-bs-backdrop="static" id="empModalSelect">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Select Employee</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-end gap-2 fw-bolder text-primary mb-4 pe-4">
+                    <span>Select All</span>
+                    <input id="head-checkbox" type="checkbox" class="form-check-input border-2" />
+                </div>
+                <ul class="list-unstyled overflow-y-scroll px-2" style="height: 400px">
+                    @foreach (var employee in employees.ToList())
+                    {
+                        <li class="border-bottom py-2 align-items-center mb-2 d-flex justify-content-between">
+                            <div class="d-flex align-items-center gap-2">
+                                <img src="~/image/@(employee.Gender == Gender.Male?"MaleUser-removebg-preview.png":"FemalePicture-removebg-preview.png")" width="30" height="30" class="rounded-circle" />
+                                <span>@($"{employee.FirstName} {employee.MiddleName} {employee.LastName}")</span>
+                            </div>
+                            <input type="checkbox" value="@employee.EmployeeId" class="row-checkbox form-check-input" />
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <form id="form-selected-ids" method="post" asp-page-handler="GenerateQRCode">
+                    <input id="selected-ids" type="hidden" asp-for="RecordIds" />
+                    <input type="hidden" asp-for="PageRoute" value="EmployeesQRCode" />
+                    <button id="btn-submit-ids" disabled type="button" class="btn btn-primary">Generate QR-Code <i class="fa-solid fa-qrcode"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

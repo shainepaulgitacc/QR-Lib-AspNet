@@ -1,0 +1,36 @@
+﻿@model AddSubAdminAccountInputModel
+
+<div class="modal fade" id="add-subadmin">
+    <div class="modal-dialog">
+        <form method="post" asp-page-handler="AddAdmin">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Add Another Admin</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label asp-for="Email" class="fw-bolder mb-2"></label><span class="text-danger fw-bolder"> *</span>
+                        <input asp-for="Email" class="form-control" placeholder="Enter here.." />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Password" class="fw-bolder mb-2"></label><span class="text-danger fw-bolder"> *</span>
+                        <input asp-for="Password" class="form-control" placeholder="Enter here.." />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="ConfirmPassword" class="fw-bolder mb-2"></label><span class="text-danger fw-bolder"> *</span>
+                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Enter here.." />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-light">Cancel</button>
+                    <button type="submit" class="btn-primary btn">Add <i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

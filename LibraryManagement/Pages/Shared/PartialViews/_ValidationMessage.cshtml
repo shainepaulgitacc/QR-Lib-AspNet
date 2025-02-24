@@ -1,0 +1,31 @@
+﻿@{
+    var validationResult = TempData["ValidationMessage"] as string;
+}@if (!string.IsNullOrEmpty(validationResult))
+{
+    @if (validationResult.Contains("successfully"))
+    {
+        <div style="top: 100px; right: 10px; width: 400px;" class="z-3 position-fixed alert alert-dismissable shadow fade show px-3 py-2 bg-info text-white d-flex justify-content-between align-items-center"
+     role="alert">
+            <div>
+                <h6 class="m-0 fw-bolder"><i class="bi bi-check-all"></i> Successfully</h6>
+                <span>
+                    @validationResult
+                </span>
+            </div>
+            <i data-bs-dismiss="alert" class="bi bi-x fs-2"></i>
+        </div>
+    }
+    else
+    {
+        <div style="top: 100px; right: 10px; width: 400px;" class="z-3 position-fixed alert alert-dismissable shadow fade show px-3 py-2 bg-danger text-white d-flex justify-content-between align-items-center"
+     role="alert">
+            <div>
+                <h6 class="m-0 fw-bolder"><i class="bi bi-exclamation-circle"></i> An Error Occured</h6>
+                <span>
+                    @validationResult
+                </span>
+            </div>
+            <i data-bs-dismiss="alert" class="bi bi-x fs-2"></i>
+        </div>
+    }
+}

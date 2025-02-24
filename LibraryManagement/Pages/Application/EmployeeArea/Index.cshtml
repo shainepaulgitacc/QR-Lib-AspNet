@@ -1,0 +1,85 @@
+﻿@page
+@model LibraryManagement.Pages.Application.EmployeeArea.IndexModel
+@{
+    ViewData["Title"] = "Employee Area";
+}
+<partial name="PartialViews/_ValidationMessage"/>
+<vc:navigation current-page="EmployeeArea"/>
+<partial name="./_EmpLogForm" model="new InputEmpAttendanceModel()"/>
+<div class="row">
+    <div class="col-4">
+        <div class="shadow rounded bg-white overflow-hidden position-sticky" style="top: 100px">
+            <div class="py-1 bg-primary"></div>
+            <div class="px-3 pt-2">
+                <span class="fs-4 mt-4"><i class="bi bi-webcam"></i> Webcam</span>
+                <div id="allow-camera-text" class="d-none mt-4 mb-4 d-flex justify-content-center align-items-center px-2 w-100" style="height: 200px;">
+                    <span><i class="bi bi-exclamation-circle"></i> <em>Make sure to allow access camera!!</em></span>
+                </div>
+                <div id="scanner-container" class="mt-4 mb-4 overflow-hidden rounded border border-1 px-2 w-100" style="height: 200px;">
+                    <video id="log-scan" class=" object-fit-cover w-100 h-100">
+                    </video>
+                </div>
+                <form asp-page-handler="BarrowScan" method="post">
+                    <div class="mb-3">
+                        <input id="emp-id" class="mb-2 form-control"asp-for="InputModel.Employee" />
+                        <input type="hidden" asp-for="InputModel.TimeIn" value="@DateTime.Now" />
+                        <button class="btn btn-primary w-100" type="submit">Submit</button>
+                    </div>
+                </form>
+                <button id="btn-close-camera" class="mb-4 btn-secondary w-100 btn btn-lg"><i class="bi bi-camera-video-off"></i> Stop Camera</button>
+                <button id="btn-open-camera" class="d-none mb-4 btn-secondary w-100 btn btn-lg"><i class="bi bi-camera-video"></i> Open Camera</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="rounded-4 shadow bg-white overflow-y-hidden mb-4">
+            <span class="bg-primary text-white fw-bolder ps-3 py-3 fs-5 d-block">
+                Employee Attendance
+                Today
+            </span>
+            <div class="p-3">
+                <table id="dataTable"
+                       data-toggle="table"
+                       data-search="true"
+                       data-pagination="true"
+                       data-side-pagination="client"
+                       data-page-list="[5,10,25,50,100,All]">
+                    <thead>
+                        <tr>
+                            <th data-sortable="true">Employee Name</th>
+                            <th data-sortable="true">Login</th>
+                            <th data-sortable="true">Logout</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        @foreach(var empAtt in Model.EmployeeAttendanceRecord)
+                        {
+                            <tr>
+                                <td>@($"{empAtt.Employee.FirstName} {empAtt.Employee.LastName}")</td>
+                                <td>@empAtt.EmpAttendance.TimeIn.ToString("hh:mm:ss tt")</td>
+                                <td>
+                                    @if (empAtt.EmpAttendance.TimeOut == null)
+                                    {
+                                        <span class="bg-secondary text-white px-2 py-1 rounded-3">
+                                           on duty
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        @empAtt.EmpAttendance.TimeOut?.ToString("hh:mm:ss tt")
+                                    }
+                                </td>
+                            </tr>
+                        }
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="PartialViews/_ValidationScriptsPartial" />
+    <script src="~/js/ScannerScript.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/EmployeeArea.js" type="text/javascript" asp-append-version="true"></script>
+}

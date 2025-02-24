@@ -1,0 +1,29 @@
+a {
+    cursor: pointer;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.bg-primary-subtle-custom {
+    background-color: rgba(0, 174, 255, 0.056);
+}
+
+.text-muted {
+    color: rgba(128, 128, 128, 0.874) !important;
+}
+.buttonStudent {
+    height: 200px;
+    width: 200px;
+    transition: .5s ease;
+}
+.buttonStudent:hover {
+        transition: .5s ease;
+        background-color: rgba(0, 115, 255, 0.851) !important;
+        color: white !important;
+    }
+
+.menus:hover {
+    box-shadow: 0 0 0 0 !important;
+}

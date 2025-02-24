@@ -1,0 +1,27 @@
+﻿@inject SignInManager<IdentityUser> _signIn
+<nav class="navbar bg-white shadow-sm mb-3 position-sticky top-0 z-1">
+    <div class="container">
+        <span class="fw-bolder h2 text-primary bg-primary-subtle-custom pe-3 ps-2 py-1 rounded-3 d-flex align-items-center">
+            <img src="~/image/377151203_962988041465752_4406410988770688344_n-removebg-preview.png" width="50" height="50"/>
+            MinSU QRLib
+        </span>
+        @if (_signIn.IsSignedIn(User))
+        {
+            <div class="d-flex gap-3">
+                <a asp-page="/Application/AdminArea/AccountManagement/Index" class="text-decoration-none">
+                    <i class="fa-solid fa-user text-primary"></i>
+                    <span class="text-muted">
+                        @User.Identity?.Name
+                    </span>
+                </a>
+                <button data-bs-toggle="modal" data-bs-target="#logout" class="bg-transparent border-0 p-0 m-0">
+                    <i class="fa-solid fa-right-from-bracket text-primary"></i>
+                    <span class="text-muted">
+                        Logout
+                    </span>
+                </button>
+            </div>
+        }
+      
+    </div>
+</nav>

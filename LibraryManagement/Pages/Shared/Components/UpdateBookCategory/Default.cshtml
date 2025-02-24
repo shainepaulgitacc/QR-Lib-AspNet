@@ -1,0 +1,28 @@
+﻿@model InputBookCategoryModel
+<div class="modal fade" data-bs-backdrop="static" id="bookCategoryUpdateModal_@(Model.Id)">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="Update">
+                <input type="hidden" asp-for="Id"/>
+                <input type="hidden" asp-for="AddedAt"/>
+                <input type="hidden" asp-for="LastUpdatedAt" value="@DateTime.Now" />
+                <div class="modal-header">
+                    <h5>Update Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="CategoryName"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="CategoryName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="CategoryName"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="reset">Reset</button>
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

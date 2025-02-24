@@ -1,0 +1,174 @@
+﻿@page
+@model LibraryManagement.Pages.Application.AdminArea.BorrowedBookManagement.IndexModel
+@{
+    var bcVal = new DNVModel
+            {
+                PageName = "Borrowed Book",
+                LinkName = new (string linkName, string pageName, bool isCurrentPage)[]
+                                                {
+            ("/Application/AdminArea/Index","Dashboard",false),
+            (null,"Boorrowed Book Management",true)
+                                                }
+            };
+    ViewData["Title"] = "Book Borrow";
+}
+<vc:dashboard-navigation model="bcVal" />
+<partial name="PartialViews/_ValidationMessage" />
+<div class="d-flex align-items-center justify-content-between">
+    <nav>
+        <div class=" nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active pb-3" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-returned" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Returned</button>
+            <button class="nav-link pb-3" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-notreturned" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Not returned yet</button>
+        </div>
+    </nav>
+    <button id="btn-export-excel" class="btn btn-info text-white rounded-3"><i class="fa-regular fa-file-excel"></i></button>
+</div>
+
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-returned" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+        <div class=" bg-white rounded-3 shadow px-4 py-3">
+            <table id="exportTable"
+                   data-toggle="table"
+                   data-search="true"
+                   data-pagination="true"
+                   data-side-pagination="client"
+                   data-page-size="5"
+                   data-page-list="[5,10,25,50,100,All]">
+                <thead>
+                    <tr>
+                        <th data-sortable="true">Borrower</th>
+                        <th data-sortable="true">Borrow Time</th>
+                        <th data-sortable="true">Book Title</th>
+                        <th data-sortable="true">Author</th>
+                        <th data-sortable="true">Category</th>
+                        <th data-sortable="true">Class No</th>
+                        <th data-sortable="true">Accession No.</th>
+                        <th data-sortable="true">Edition</th>
+                        <th data-sortable="true">Volume</th>
+                        <th data-sortable="true">Pages</th>
+                        <th data-sortable="true">Copies</th>
+                        <th data-sortable="true">Source Of Fund</th>
+                        <th data-sortable="true">Publisher</th>
+                        <th data-sortable="true">Year</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var borBookRecord in Model.BorrowBookRecord)
+                    {
+                        if (borBookRecord.BorrowBook.Returned != null)
+                        {
+                            <tr>
+                                <td>@borBookRecord.User.FirstName @borBookRecord.User.MiddleName @borBookRecord.User.LastName</td>
+                                <td>
+                                    @borBookRecord.BorrowBook.BorrowTime - @borBookRecord.BorrowBook.Returned
+                                </td>
+                                <td>@borBookRecord.Book.Title</td>
+                                <td>@borBookRecord.Book.Author</td>
+                                <td>@borBookRecord.CategoryName</td>
+                                <td>@borBookRecord.Book.ClassNo</td>
+                                <td>@borBookRecord.Book.AccessionNumber</td>
+                                <td>@borBookRecord.Book.Edition</td>
+                                <td>@borBookRecord.Book.Volume</td>
+                                <td>@borBookRecord.Book.Pages</td>
+                                <td>@borBookRecord.Book.Copies</td>
+                                <td>@borBookRecord.Book.SourceOfFund</td>
+                                <td>@borBookRecord.Book.Publisher</td>
+                                <td>@borBookRecord.Book.Year</td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <button data-bs-toggle="modal" data-bs-target="#deleteModal_@(borBookRecord.BorrowBook.Id)" class="btn btn-danger rounded-4"><i class="fa-solid fa-trash-can"></i></button>
+                                        <partial name="PartialViews/_DeleteRecIdInt" model="@borBookRecord.BorrowBook.Id" />
+                                        <button data-bs-toggle="modal" data-bs-target="#borrow-rec-view-@borBookRecord.BorrowBook.Id" class="btn btn-warning rounded-4"><i class="fa-solid fa-eye"></i></button>
+                                        <vc:view-borrow-book-record Id="borBookRecord.BorrowBook.Id" />
+                                    </div>
+                                   
+                                </td>
+                            </tr>
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-notreturned" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+        <div class=" bg-white rounded-3 shadow px-4 py-3">
+            <table id="exportTable"
+                   class="table"
+                   data-toggle="table"
+                   data-search="true"
+                   data-pagination="true"
+                   data-side-pagination="client"
+                   data-page-size="5"
+                   data-page-list="[5,10,25,50,100,All]">
+                <thead>
+                    <tr>
+                        <th data-sortable="true">Borrower</th>
+                        <th data-sortable="true">Borrow Time</th>
+                        <th data-sortable="true">Book Title</th>
+                        <th data-sortable="true">Author</th>
+                        <th data-sortable="true">Class No/Category</th>
+                        <th data-sortable="true">Accession No.</th>
+                        <th data-sortable="true">Edition</th>
+                         <th data-sortable="true">Volume</th>
+                        <th data-sortable="true">Pages</th>
+                        <th data-sortable="true">Copies</th>
+                        <th data-sortable="true">Source Of Fund</th>
+                        <th data-sortable="true">Publisher</th>
+                        <th data-sortable="true">Year</th>
+                        
+
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var borBookRecord in Model.BorrowBookRecord)
+                    {
+                        if (borBookRecord.BorrowBook.Returned == null)
+                        {
+                            <tr>
+                                <td>@borBookRecord.User.FirstName @borBookRecord.User.MiddleName @borBookRecord.User.LastName</td>
+                                <td>
+                                    @borBookRecord.BorrowBook.BorrowTime - @borBookRecord.BorrowBook.Returned
+                                </td>
+                                <td>@borBookRecord.Book.Title</td>
+                                <td>@borBookRecord.Book.Author</td>
+                                <td>@borBookRecord.CategoryName</td>
+                                <td>@borBookRecord.Book.AccessionNumber</td>
+                                <td>@borBookRecord.Book.Edition</td>
+                                <td>@borBookRecord.Book.Volume</td>
+                                <td>@borBookRecord.Book.Pages</td>
+                                <td>@borBookRecord.Book.Copies</td>
+                                <td>@borBookRecord.Book.SourceOfFund</td>
+                                <td>@borBookRecord.Book.Publisher</td>
+                                <td>@borBookRecord.Book.Year</td>
+                                <td>
+                                   <div class="d-flex gap-1">
+                                       <button data-bs-toggle="modal" data-bs-target="#deleteModal_@(borBookRecord.BorrowBook.Id)" class="btn btn-danger rounded-4"><i class="fa-solid fa-trash-can"></i></button>
+                                    <partial name="PartialViews/_DeleteRecIdInt" model="@borBookRecord.BorrowBook.Id" />
+                                    <button data-bs-toggle="modal" data-bs-target="#borrow-rec-view-@borBookRecord.BorrowBook.Id" class="btn btn-warning rounded-4"><i class="fa-solid fa-eye"></i></button>
+                                    <a asp-page-handler="BookReturn" asp-route-Id="@borBookRecord.BorrowBook.Id" class="btn btn-success rounded-4"><i class="fa-solid fa-check"></i></a>
+                                    <vc:view-borrow-book-record Id="borBookRecord.BorrowBook.Id" />
+                                   </div>
+                                    
+                                </td>
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="PartialViews/_ValidationScriptsPartial" />
+    <script src="~/js/table2excel.js" asp-append-version="true"></script>
+    <script src="~/js/ExportToExcel.js" asp-append-version="true"></script>
+    <script src="~/js/SelectRecord.js" asp-append-version="true" type="text/javascript"></script>
+}
+
+
+

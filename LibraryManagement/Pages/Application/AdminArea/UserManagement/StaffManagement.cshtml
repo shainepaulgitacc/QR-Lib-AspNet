@@ -1,0 +1,88 @@
+﻿@page
+@model LibraryManagement.Pages.Application.AdminArea.UserManagement.StaffManagementModel
+@{
+    var bcVal = new DNVModel
+            {
+                PageName = "User",
+                LinkName = new (string linkName, string pageName, bool isCurrentPage)[]
+                                {
+            ("/Application/AdminArea/Index","Dashboard",false),
+            (null,"Staff Management",true)
+                                }
+            };
+             ViewData["Title"] = "Staff";
+}
+<partial name="PartialViews/_ValidationMessage" />
+<vc:dashboard-navigation model="bcVal" />
+
+<partial name="_FormQR-Codes" model="new RecordSelectedInputModel()" />
+<partial name="_AddUser" model="new InputUserModel()" />
+<span class="d-none" id="pdfHeader">Students Data Table</span>
+<vc:user-navigation user="Staff" />
+<div class="d-flex align-items-center justify-content-between mb-2">
+    <button data-bs-target="#staff-add" data-bs-toggle="modal" class="btn btn-primary rounded-pill px-4">Add New Staff <i class="fa-solid fa-user-plus"></i></button>
+    <div class="gap-3">
+        <button data-bs-target="#staff-select" data-bs-toggle="modal" class="btn btn-info text-white rounded-3"><i class="fa-solid fa-qrcode"></i></button>
+        <partial name="_StaffSelect" model="new RecordSelectedInputModel()" />
+        <button id="btn-export-excel" class="btn btn-info text-white rounded-3"><i class="fa-regular fa-file-excel"></i></button>
+    </div>
+</div>
+<div class=" bg-white rounded-3 shadow px-4 py-3">
+    <table id="exportTable"
+           class="table"
+           data-toggle="table"
+           data-search="true"
+           data-pagination="true"
+           data-side-pagination="client"
+           data-page-size="5"
+           data-page-list="[5,10,25,50,100,All]">
+        <thead>
+            <tr>
+
+                <th data-sortable="true">ID No.</th>
+                <th data-sortable="true">Last Name</th>
+                <th data-sortable="true">First Name</th>
+                <th data-sortable="true">Middle Name</th>
+                <th data-sortable="true">Gender</th>
+                <th data-sortable="true">Email</th>
+                <th data-sortable="true">Phone No.</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var user in Model.Records)
+            {
+                if (user.UserType == Users.Staff)
+                {
+                    <tr>
+                        <td>
+                            <a class="btn btn-outline-primary text-nowrap">
+                                @user.UserId
+                            </a>
+                        </td>
+                        <td>@user.LastName</td>
+                        <td>@user.FirstName</td>
+                        <td>@user.MiddleName</td>
+                        <td>@user.Gender</td>
+                        <td>@user.Email</td>
+                        <td>@user.PhoneNumber</td>
+                        <td>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#staff-update_@(user.UserId)" class="btn btn-success rounded-4"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal_@(user.UserId)" class="btn btn-danger rounded-4"><i class="fa-solid fa-trash-can"></i></button>
+                            <a asp-page="./UserRecordHistory" asp-route-Id="@user.UserId" class="btn btn-warning rounded-4"><i class="fa-solid fa-eye"></i></a>
+                            <partial name="PartialViews/_DeleteRecord" model="user.UserId" />
+                        </td>
+                    </tr>
+                    <vc:update-user id="@user.UserId" />
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+    <partial name="PartialViews/_ValidationScriptsPartial" />
+    <script src="~/js/table2excel.js" asp-append-version="true"></script>
+    <script src="~/js/ExportToExcel.js" asp-append-version="true"></script>
+    <script src="~/js/SelectRecord.js" asp-append-version="true" type="text/javascript"></script>
+
+}

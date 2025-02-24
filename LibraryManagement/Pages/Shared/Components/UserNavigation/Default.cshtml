@@ -1,0 +1,15 @@
+﻿@model Users
+<div class="d-flex justify-content-center align-items-center gap-3 pb-5">
+    <a asp-page="./Index" class="bg-white rounded-3 text-decoration-none shadow-sm menus @(Model == Users.Student? "text-primary fw-bolder border-3 border-bottom border-primary":"")  px-2 py-1">
+        Students
+    </a>
+     <a asp-page="./FacultyManagement" class="rounded-3 bg-white text-decoration-none shadow-sm menus @(Model == Users.Faculty? "text-primary fw-bolder border-3 border-bottom border-primary":"")  px-2 py-1">
+        Faculties
+    </a>
+     <a asp-page="./StaffManagement" class="rounded-3 bg-white text-decoration-none shadow-sm menus @(Model == Users.Staff? "text-primary fw-bolder border-3 border-bottom border-primary":"")  px-2 py-1">
+        Staffs
+    </a>
+     <a asp-page="./GuestManagement" class="rounded-3 bg-white text-decoration-none shadow-sm menus @(Model == Users.Guest? "text-primary fw-bolder border-3 border-bottom border-primary":"")  px-2 py-1">
+        Guests
+    </a>
+</div>

@@ -1,0 +1,48 @@
+﻿@using LibraryManagement.Model.Infrastracture.Contracts;
+@inject IUserRepository repo
+@{
+    var users = await repo.GetAllRecords();
+    var students = users.Where(x => x.UserType == Users.Student).ToList();
+}
+<div class="modal fade" data-bs-backdrop="static" id="student-select">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Select Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-end gap-2 fw-bolder text-primary mb-4 pe-4">
+                    <span>Select All</span>
+                    <input id="head-checkbox" type="checkbox" class="form-check-input border-2" />
+                </div>
+                <ul class="list-unstyled overflow-y-scroll px-2" style="height: 400px">
+                    @if(students.Count() > 0)
+                    {
+                        @foreach (var student in students)
+                        {
+                           <li class="border-bottom py-2 align-items-center mb-2 d-flex justify-content-between">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img src="~/image/@(student.Gender == Gender.Male?"MaleUser-removebg-preview.png":"FemalePicture-removebg-preview.png")" width="30" height="30" class="rounded-circle" />
+                                    <span>@student.FirstName @student.MiddleName @student.LastName</span>
+                                    </div>
+                                    <input type="checkbox" value="@student.UserId" class="row-checkbox form-check-input" />
+                           </li>
+
+                        }
+                    }
+                    else
+                    {
+                        <li class="d-block text-center text-muted mt-3">No record</li>
+                    }
+
+                    
+
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-submit-ids" disabled type="button" class="btn btn-primary">Generate QR-Code <i class="fa-solid fa-qrcode"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

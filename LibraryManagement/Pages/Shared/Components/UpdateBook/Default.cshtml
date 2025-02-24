@@ -1,0 +1,92 @@
+﻿@model InputBookModel
+@inject IBaseRepository<BookCategory> bCategRepo;
+@{
+    var bcategories = await bCategRepo.GetAllRecords();
+}
+<div class="modal fade" data-bs-backdrop="static" id="update-book-@(Model.Id)">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post"  asp-page-handler="Update">
+                <input type="hidden" asp-for="Id" value="@Model.Id"/>
+                <div class="modal-header">
+                    <h5>Update Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Title"></label>
+                        <input class="form-control" asp-for="Title" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Title"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Author"></label>
+                        <input class="form-control" asp-for="Author" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Author"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="ClassNo"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="ClassNo" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="ClassNo"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="BookCategoryId"></label><span class="text-danger">*</span>
+                        <select class="form-select" asp-for="BookCategoryId" asp-items="@bcategories.Select(x => new SelectListItem(x.CategoryName,x.Id.ToString()))">
+                        </select>
+                        <span class="text-danger" asp-validation-for="BookCategoryId"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="AccessionNumber"></label>
+                        <textarea class="form-control" asp-for="AccessionNumber" placeholder="Enter here..">
+                        </textarea>
+                        <span class="text-danger" asp-validation-for="AccessionNumber"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Edition"></label>
+                        <input class="form-control" asp-for="Edition" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Edition"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Volume"></label>
+                        <input class="form-control" asp-for="Volume" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Volume"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Title"></label>
+                        <input class="form-control" asp-for="Title" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Title"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Pages"></label>
+                        <input type="number" class="form-control" asp-for="Pages" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Copies"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Copies"></label>
+                        <input type="number" class="form-control" asp-for="Copies" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Copies"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="SourceOfFund"></label>
+                        <input class="form-control" asp-for="SourceOfFund" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="SourceOfFund"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Publisher"></label>
+                        <input class="form-control" asp-for="Publisher" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Publisher"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Year"></label>
+                        <input type="number" class="form-control" asp-for="Year" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Year"></span>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="reset">Reset</button>
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

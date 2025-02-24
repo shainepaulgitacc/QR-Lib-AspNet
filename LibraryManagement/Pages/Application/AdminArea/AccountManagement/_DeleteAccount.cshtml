@@ -1,0 +1,25 @@
+﻿@model DeleteAccountInputModel
+<div class="modal fade" id="delete-account">
+    <div class="modal-dialog">
+        <form method="post" asp-page-handler="DeleteAcc">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Delete Account</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label asp-for="Password" class="fw-bolder mb-2"></label><span class="text-danger fw-bolder"> *</span>
+                        <input asp-for="Password" class="form-control" placeholder="Enter here.." />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light">Cancel</button>
+                    <button class="btn-primary btn">Delete</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

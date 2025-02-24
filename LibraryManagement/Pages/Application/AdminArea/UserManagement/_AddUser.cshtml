@@ -1,0 +1,257 @@
+﻿@model InputUserModel
+
+<div class="modal fade" data-bs-backdrop="static" id="student-add">
+    <div class="modal-dialog" >
+        <div class="modal-content" >
+            <form method="post">
+                <input type="hidden" asp-for="AddedAt" value="@DateTime.Now"/>
+                <input type="hidden" asp-for="LastUpdatedAt" value="@DateTime.Now"/>
+                <input type="hidden" asp-for="UserType" value="@Users.Student"/>
+                <div class="modal-header">
+                    <h5> Add Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="UserId"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="UserId" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="UserId"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="FirstName"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="FirstName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="FirstName"></span>
+                    </div>
+                     <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="MiddleName"></label>
+                        <input class="form-control" asp-for="MiddleName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="MiddleName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="LastName"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="LastName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="LastName"></span>
+                    </div>
+                   
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Gender"></label><span class="text-danger">*</span>
+                        <select class="form-select" 
+                            asp-items="@Html.GetEnumSelectList<Gender>()" 
+                            asp-for="Gender">
+                        </select>
+                        <span class="text-danger" asp-validation-for="Gender"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Course"></label><span class="text-danger">*</span>
+                        <input required class="form-control" asp-for="Course" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Course"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="YearLevel"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="YearLevel" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="YearLevel"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Email"></label>
+                        <input class="form-control" asp-for="Email" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="PhoneNumber"></label>
+                        <input class="form-control" asp-for="PhoneNumber" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="reset">Reset</button>
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+<div class="modal fade" data-bs-backdrop="static" id="faculty-add">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                <input type="hidden" asp-for="AddedAt" value="@DateTime.Now" />
+                <input type="hidden" asp-for="LastUpdatedAt" value="@DateTime.Now" />
+                <input type="hidden" asp-for="UserType" value="@Users.Faculty" />
+                <div class="modal-header">
+                    <h5> Add Faculty</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="UserId"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="UserId" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="UserId"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="FirstName"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="FirstName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="FirstName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="MiddleName"></label>
+                        <input class="form-control" asp-for="MiddleName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="MiddleName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="LastName"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="LastName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="LastName"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Gender"></label><span class="text-danger">*</span>
+                        <select class="form-select"
+                                asp-items="@Html.GetEnumSelectList<Gender>()"
+                                asp-for="Gender">
+                        </select>
+                        <span class="text-danger" asp-validation-for="Gender"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Email"></label>
+                        <input class="form-control" asp-for="Email" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="PhoneNumber"></label>
+                        <input class="form-control" asp-for="PhoneNumber" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="reset">Reset</button>
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" data-bs-backdrop="static" id="staff-add">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                <input type="hidden" asp-for="AddedAt" value="@DateTime.Now" />
+                <input type="hidden" asp-for="LastUpdatedAt" value="@DateTime.Now" />
+                <input type="hidden" asp-for="UserType" value="@Users.Staff"/>
+                <div class="modal-header">
+                    <h5> Add Staff</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="UserId"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="UserId" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="UserId"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="FirstName"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="FirstName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="FirstName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="MiddleName"></label>
+                        <input class="form-control" asp-for="MiddleName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="MiddleName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="LastName"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="LastName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="LastName"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Gender"></label><span class="text-danger">*</span>
+                        <select class="form-select"
+                                asp-items="@Html.GetEnumSelectList<Gender>()"
+                                asp-for="Gender">
+                        </select>
+                        <span class="text-danger" asp-validation-for="Gender"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Email"></label>
+                        <input class="form-control" asp-for="Email" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="PhoneNumber"></label>
+                        <input class="form-control" asp-for="PhoneNumber" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="reset">Reset</button>
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" data-bs-backdrop="static" id="guest-add">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                <input type="hidden" asp-for="AddedAt" value="@DateTime.Now" />
+                <input type="hidden" asp-for="LastUpdatedAt" value="@DateTime.Now" />
+                <input type="hidden" asp-for="UserType" value="@Users.Guest" />
+                <div class="modal-header">
+                    <h5> Add Guest</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="UserId"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="UserId" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="UserId"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="FirstName"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="FirstName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="FirstName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="MiddleName"></label>
+                        <input class="form-control" asp-for="MiddleName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="MiddleName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="LastName"></label><span class="text-danger">*</span>
+                        <input class="form-control" asp-for="LastName" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="LastName"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Gender"></label><span class="text-danger">*</span>
+                        <select class="form-select"
+                                asp-items="@Html.GetEnumSelectList<Gender>()"
+                                asp-for="Gender">
+                        </select>
+                        <span class="text-danger" asp-validation-for="Gender"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="Email"></label>
+                        <input class="form-control" asp-for="Email" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bolder mb-2" asp-for="PhoneNumber"></label>
+                        <input type="number" class="form-control" asp-for="PhoneNumber" placeholder="enter here.." />
+                        <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" type="reset">Reset</button>
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

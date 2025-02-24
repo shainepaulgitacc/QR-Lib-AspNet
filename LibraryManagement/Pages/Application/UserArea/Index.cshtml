@@ -1,0 +1,171 @@
+﻿@page
+@model LibraryManagement.Pages.StudentArea.IndexModel
+@{ 
+     ViewData["Title"] = "User Area";
+}
+<partial name="PartialViews/_ValidationMessage"/>
+<partial name="_UserLogForm" model="new InputUserAttendanceModel()"/>
+<vc:navigation current-page="StudentArea"/>
+<div class="mb-4">
+    <form id="borrow-scan-form" asp-page-handler="BarrowScan" method="post">
+        <input type="hidden" asp-for="UserId" id="user-barrow-id" />
+    </form>
+    <button @(Model.Books == 0 ? "disabled aria-disabled='true'" : "") id="barrow-btn" data-bs-toggle="modal" data-bs-target="#barrow-modal-qr" class="btn btn-primary px-5 rounded-pill py-2 border border-2 border-primary">
+        Borrow <i class="fa-solid fa-book"></i>
+    </button>
+    <div class="modal fade" data-bs-backdrop="static" id="barrow-modal-qr">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Scan QR-Code</h5>
+                    <button id="exit-barrow-btn" class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-4 mb-4 overflow-hidden rounded border border-1 px-2 w-100" style="height: 200px;">
+                        <video id="barrow-scan" class="object-fit-cover w-100 h-100">
+                        </video>
+                    </div>
+                    <form asp-page-handler="BarrowScan" method="post">
+                        <div class="mb-3">
+                            <input class="form-control mb-2" placeholder="Enter id" asp-for="UserId"/>
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="row">
+    <div class="col-4">
+        <div class="shadow rounded overflow-hidden bg-white position-sticky" style="top: 100px">
+            <div class="py-1 bg-primary"></div>
+            <div class="px-3 pt-2" >
+                <span class="fs-4 mt-4"><i class="bi bi-webcam"></i> Webcam</span>
+                <div id="allow-camera-text" class="d-none mt-4 mb-4 d-flex justify-content-center align-items-center px-2 w-100" style="height: 200px;">
+                    <span><i class="bi bi-exclamation-circle"></i> <em>Make sure to allow access camera!!</em></span>
+                </div>
+                <div id="scanner-container" class="mt-4 mb-4 overflow-hidden rounded border border-1 px-2 w-100" style="height: 200px;">
+                    <video id="log-scan" class=" object-fit-cover w-100 h-100">
+                    </video>
+                </div>
+                <form method="post">
+                    <div class="mb-3">
+                        <input class="form-control mb-2" placeholder="Enter id" asp-for="InputModel.User" id="student-id" />
+                        <input type="hidden" asp-for="InputModel.TimeIn" value="@DateTime.Now" />
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </div>
+                </form>
+
+                <button id="btn-close-camera" class="mb-4 btn-secondary w-100 btn btn-lg"><i class="bi bi-camera-video-off"></i> Stop Camera</button>
+                <button id="btn-open-camera" class="d-none mb-4 btn-secondary w-100 btn btn-lg"><i class="bi bi-camera-video"></i> Open Camera</button>
+            </div>
+       </div>
+    </div>
+    <div class="col-8">
+        <div class="rounded-4 shadow bg-white overflow-y-hidden mb-4">
+            <span class="bg-primary text-white fw-bolder ps-3 py-3 fs-5 d-block">
+               User Log Transaction Today
+            </span>
+            <div class="p-3">
+                <table id="dataTable"
+                       data-toggle="table"
+                       data-search="true"
+                       data-pagination="true"
+                       data-side-pagination="client"
+                       data-page-size="5"
+                       data-page-list="[5,10,25,50,100,All]">
+                    <thead>
+                        <tr>
+                            <th data-sortable="true">Name</th>
+                            <th data-sortable="true">Type of user</th>
+                            <th data-sortable="true">Time In</th>
+                            <th data-sortable="true">Time Out</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        @foreach(var userAttendance in Model.UsersAttendance)
+                        {
+                          
+                            <tr>
+                                <td>@userAttendance.User.FirstName @userAttendance.User.MiddleName @userAttendance.User.LastName</td>
+                                <td>@userAttendance.User.UserType</td>
+                                <td>@userAttendance.UserLog.TimeIn.ToString("hh:mm:ss tt")</td>
+                                <td>
+                                    @if(userAttendance.UserLog.TimeOut == null)
+                                    {
+                                    <span class="bg-secondary text-white px-2 py-1 rounded-3">
+                                        still in the library
+                                    </span>
+                                    }
+                                    else
+                                    {
+                                        @userAttendance.UserLog.TimeOut?.ToString("hh:mm:ss tt")
+                                    }
+                                </td>
+                            </tr>    
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class=" rounded-4 shadow bg-white overflow-y-hidden mb-4">
+            <span class="bg-primary text-white fw-bolder ps-3 py-3 fs-5 d-block">
+                Borrowed Books Transaction
+                Today
+            </span>
+            <div class="p-3">
+                <table id="dataTable"
+                       data-toggle="table"
+                       data-search="true"
+                       data-pagination="true"
+                       data-side-pagination="client"
+                       data-page-size="5"
+                       data-page-list="[5,10,25,50,100,All]">
+                    <thead>
+                        <tr>
+                            <th data-sortable="true">Name</th>
+                            <th data-sortable="true">Type Of User</th>
+                            <th data-sortable="true">Book Title</th>
+                            <th data-sortable="true">Borrow Time</th>
+                            <th data-sortable="true">Returned Time</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        @foreach(var borBook in Model.BorrowedBooks)
+                        {
+                            <tr>
+                                <td>@borBook.User.FirstName @borBook.User.MiddleName @borBook.User.LastName</td>
+                                <td>@borBook.User.UserType</td>
+                                <td>@borBook.Book.Title</td>
+                                <td>@borBook.BorrowBook.BorrowTime.ToString("hh: mm:ss tt")</td>
+                                <td>
+                                    @if(borBook.BorrowBook.Returned != null)
+                                    {
+                                        <span> @borBook.BorrowBook.Returned?.ToString("hh: mm:ss tt")</span>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-warning rounded-3 text-white" asp-page-handler="BookReturn" asp-route-Id="@borBook.BorrowBook.Id">Set returned</a>
+                                    }
+                                </td>
+                                <td>
+                                    <i data-bs-target="#borrow-rec-view-@borBook.BorrowBook.Id" data-bs-toggle="modal" class="clickable text-success fs-5 fa-solid fa-eye"></i>
+                                </td>
+                            </tr>
+                            <vc:view-borrow-book-record id="borBook.BorrowBook.Id"/>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="PartialViews/_ValidationScriptsPartial"/>
+    <script src="~/js/ScannerScript.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/StudentArea.js" type="text/javascript" asp-append-version="true"></script>
+}

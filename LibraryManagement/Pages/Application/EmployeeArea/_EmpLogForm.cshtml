@@ -1,0 +1,5 @@
+﻿@model InputEmpAttendanceModel
+<form id="emplog-form" method="post">
+    <input id="emp-id" type="hidden" asp-for="Employee"/>
+    <input type="hidden" asp-for="TimeIn" value="@DateTime.Now"/>
+</form>

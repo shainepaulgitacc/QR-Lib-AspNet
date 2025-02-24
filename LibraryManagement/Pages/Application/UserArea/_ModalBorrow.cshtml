@@ -1,0 +1,26 @@
+﻿@inject IBaseRepository<BookCategory> _bookCategoryRepo
+@{
+    var bookCategories = await _bookCategoryRepo.GetAllRecords();
+}
+@model string
+<div class="modal fade" data-bs-backdrop="static" id="barrow-modal-qr">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Scan QR-Code</h5>
+                <button id="exit-barrow-btn" class="btn-close" type="button" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mt-4 mb-4 overflow-hidden rounded border border-1 px-2 w-100" style="height: 200px;">
+                    <video id="barrow-scan" class="object-fit-cover w-100 h-100">
+                    </video>
+                </div>
+                <form asp-page-handler="BarrowScan" method="post">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

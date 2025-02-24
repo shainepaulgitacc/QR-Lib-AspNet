@@ -1,0 +1,6 @@
+﻿@using LibraryManagement.Model.Infrastracture.Contracts;
+@model RecordSelectedInputModel
+<form id="form-selected-ids" method="post" asp-page-handler="GenerateQRCode">
+    <input id="selected-ids" type="hidden" asp-for="RecordIds" />
+    <input type="hidden" asp-for="PageRoute" value="UsersQRCode"/>
+</form>

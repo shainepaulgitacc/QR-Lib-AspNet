@@ -1,0 +1,110 @@
+﻿@page
+@model LibraryManagement.Pages.Application.AdminArea.EmployeeManagement.IndexModel
+@{
+    var bcVal = new DNVModel
+            {
+                PageName = "Employee",
+                LinkName = new (string linkName, string pageName, bool isCurrentPage)[]
+                        {
+            ("/Application/AdminArea/Index","Dashboard",false),
+            (null,"Employee Management",true)
+                        }
+            };
+    ViewData["Title"] = "Employee";
+}
+<vc:dashboard-navigation model="bcVal" />
+<partial name="PartialViews/_ValidationMessage"/>
+<span class="d-none" id="pdfHeader">Employee Data Table</span>
+<div class="d-flex align-items-center justify-content-between mb-2">
+    <button data-bs-target="#empModalAdd" data-bs-toggle="modal" class="btn btn-primary rounded-pill px-4">Add New Employee<i class="fa-solid fa-user-plus"></i></button>
+    <partial name="_AddEmployee" model="new InputEmployeeModel()"/>
+
+    <div class="gap-2">
+        <button data-bs-target="#empModalSelect" data-bs-toggle="modal" class="btn btn-info text-white rounded-3"><i class="fa-solid fa-qrcode"></i></button>
+         <partial name="_EmployeeSelect" model="new RecordSelectedInputModel()"/>
+         <button id="btn-export-excel" class="btn btn-info text-white rounded-3"><i class="fa-regular fa-file-excel"></i></button>
+    </div>
+</div>
+<div class=" bg-white rounded-3 shadow px-4 py-3">
+    <table id="exportTable"
+           data-toggle="table"
+           data-search="true"
+           data-pagination="true"
+           data-side-pagination="client"
+           data-page-size="5"7
+           data-page-list="[5,10,25,50,100,All]">
+        <thead>
+            <tr>
+                <th data-sortable="true">Employee Profile</th>
+                <th data-sortable="true">Employee Id</th>
+                <th data-sortable="true">Employee Full Name</th>
+                <th data-sortable="true">Gender</th>
+                <th data-sortable="true">Designation</th>
+                <th data-sortable="true">Address</th>
+                <th data-sortable="true">Contact Number</th>
+                <th data-sortable="true">Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var employee in Model.Records)
+            {
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <img width="70" height="70" class="rounded-circle" src="~/ProfilePicture/@employee.ProfilePicture">
+                        </div>
+                       
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary text-nowrap">
+                            @employee.EmployeeId
+                        </a>
+                    </td>
+                    <td>@($"{employee.FirstName} {employee.MiddleName} {employee.LastName}") @(employee.Suffix == Suffix.None?"":employee.Suffix)</td>
+                    <td>@employee.Gender</td>
+                    <td>@employee.Designation</td>
+                    <td>@employee.Address</td>
+                    <td>@employee.ContactNumber</td>
+                    <td>@employee.Email</td>
+                    <td>
+                        <div class="text-nowrap">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#empModalUpdate_@(employee.EmployeeId)" class="btn btn-success rounded-4 "><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal_@(employee.EmployeeId)" class="btn btn-danger rounded-4"><i class="fa-solid fa-trash-can"></i></button>
+
+                        </div>
+                    </td>
+                </tr>
+                <partial name="PartialViews/_DeleteRecord" model="employee.EmployeeId" />
+                <vc:update-employee Id="@employee.EmployeeId"/>
+            }
+
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+    <partial name="PartialViews/_ValidationScriptsPartial" />
+    <script src="~/js/table2excel.js" asp-append-version="true"></script>
+    <script>
+        $("#btn-export-excel").on("click", function () {
+            console.log("sample lang");
+            var table2excel = new Table2Excel();
+
+            // Make a copy of the table for exporting
+            var exportTableCopy = document.querySelector("table.table").cloneNode(true);
+
+            // Exclude first and last columns in the copied table
+            var excludedColumnIndices = [0, exportTableCopy.rows[0].cells.length - 1];
+
+            for (var i = 0; i < exportTableCopy.rows.length; i++) {
+                for (var j = excludedColumnIndices.length - 1; j >= 0; j--) {
+                    exportTableCopy.rows[i].deleteCell(excludedColumnIndices[j]);
+                }
+            }
+
+            table2excel.export([exportTableCopy]);
+        });
+    </script>
+
+    <script src="~/js/SelectRecord.js" asp-append-version="true" type="text/javascript"></script>
+}

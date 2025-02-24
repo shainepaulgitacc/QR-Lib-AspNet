@@ -1,0 +1,86 @@
+﻿@page
+@model LibraryManagement.Pages.Application.AdminArea.BookCategoryManagement.IndexModel
+@{
+    var bcVal = new DNVModel
+            {
+                PageName = "Book",
+                LinkName = new (string linkName, string pageName, bool isCurrentPage)[]
+                                                    {
+            ("/Application/AdminArea/Index","Dashboard",false),
+            (null,"Book Management",true)
+                                                    }
+            };
+    ViewData["Title"] = "Book";
+}
+<vc:dashboard-navigation model="bcVal"/>
+<partial name="PartialViews/_ValidationMessage" />
+<div class="d-flex align-items-center justify-content-between mb-2">
+    <div class="d-flex gap-2">
+        <button data-bs-target="#add-book" data-bs-toggle="modal" class="btn btn-primary rounded-pill px-4">Add New Book<i class="fa-solid fa-plus"></i></button>
+        <a asp-page="./CategoryManagement" class="btn btn-primary px-5 rounded-pill">Category <i class="fa-solid fa-layer-group"></i></a>
+        <partial name="_AddBook" model="new InputBookModel()" />
+    </div>
+    <button id="btn-export-excel" class="btn btn-info text-white rounded-3"><i class="fa-regular fa-file-excel"></i></button>
+</div>
+<div class=" bg-white rounded-3 shadow px-4 py-3">
+    <table id="exportTable"
+        class="table"
+           data-toggle="table"
+           data-search="true"
+           data-pagination="true"
+           data-side-pagination="client"
+           data-page-size="5"
+           data-page-list="[5,10,25,50,100,All]">
+        <thead>
+            <tr>
+                <th data-sortable="true">Id</th>
+                <th data-sortable="true">Title Of the Book</th>
+                <th data-sortable="true">Author</th>
+                <th data-sortable="true">Book Category</th>
+                <th data-sortable="true">Class No</th>
+                <th data-sortable="true">Accession No.</th>
+                <th data-sortable="true">Edition</th>
+                <th data-sortable="true">Volumes</th>
+                <th data-sortable="true">Pages</th>
+                <th data-sortable="true">Copies</th>
+                <th data-sortable="true">Source Of fund</th>
+                <th data-sortable="true">Publisher</th>
+                <th data-sortable="true">Year</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var bookrecord in Model.Books)
+            {
+                <tr>
+                    <td>@bookrecord.Book.Id</td>
+                    <td>@bookrecord.Book.Title</td>
+                    <td>@bookrecord.Book.Author</td>
+                    <td>@bookrecord.Category.CategoryName</td>
+                    <td>@bookrecord.Book.ClassNo</td>
+                    <td>@bookrecord.Book.AccessionNumber</td>
+                    <td>@bookrecord.Book.Edition</td>
+                    <td>@bookrecord.Book.Volume</td>
+                    <td>@bookrecord.Book.Pages</td>
+                    <td>@bookrecord.Book.Copies</td>
+                    <td>@bookrecord.Book.SourceOfFund</td>
+                    <td>@bookrecord.Book.Publisher</td>
+                    <td>@bookrecord.Book.Year</td>
+                    <td>
+                        <div class="text-nowrap">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#update-book-@(bookrecord.Book.Id)" class="btn btn-success rounded-4 "><i class="fa-solid fa-pen-to-square"></i></button>
+                            <vc:update-book id="bookrecord.Book.Id"/>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal_@(bookrecord.Book.Id)" class="btn btn-danger rounded-4"><i class="fa-solid fa-trash-can"></i></button>
+                            <partial name="PartialViews/_DeleteRecIdInt" model="bookrecord.Book.Id" />
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    <partial name="PartialViews/_ValidationScriptsPartial" />
+    <script src="~/js/table2excel.js" asp-append-version="true"></script>
+    <script src="~/js/ExportToExcel.js" asp-append-version="true"></script>
+}

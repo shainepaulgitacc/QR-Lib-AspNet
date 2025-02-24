@@ -1,0 +1,73 @@
+﻿@page
+@model LibraryManagement.Pages.Application.AdminArea.AccountManagement.IndexModel
+@{
+    var bcVal = new DNVModel
+            {
+                PageName = "Account",
+                LinkName = new (string linkName, string pageName, bool isCurrentPage)[]
+              {
+            ("/Application/AdminArea/Index","Dashboard",false),
+            (null,"Account Management",true)
+                }
+            };
+    ViewData["Title"] = "Account";
+}
+<partial name="PartialViews/_ValidationMessage" />
+<vc:dashboard-navigation model="bcVal"/>
+<div class="bg-white rounded-3 shadow p-4">
+    <div class="row">
+        <div class="col-5">
+            <h5 class="mb-4 fw-bolder">Account Currently Login</h5>
+            <hr class="mb-4 m-0 border-primary border border-opacity-50 border-2" />
+            <div class="row border-end">
+                <div class="col-5">
+                    <img class="w-100 h-100" src="~/image/User.png"/>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex flex-column gap-3">
+                        <span class="fw-bolder">UserName: <span class="fw-lighter">@User.Identity?.Name</span></span>
+                        <span class="fw-bolder">Role: <span class="fw-lighter">@(User.Identity?.Name == "admin@gmail.com"?"Admin":"SubAdmin")</span></span>
+                        @if (User.Identity?.Name != "admin@gmail.com")
+                        {
+                            <span class="fw-bolder">Email: <span class="fw-lighter">shaine@gmail.com</span></span>
+                            <button data-bs-toggle="modal" data-bs-target="#delete-account" class="btn btn-danger">Delete account <i class="fa-solid fa-trash-can"></i></button>
+                            <partial name="_DeleteAccount" model="new DeleteAccountInputModel()"/>
+                        }
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-7">
+            <div class="mb-4 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bolder">Accounts</h5>
+                @if(@User.Identity?.Name == "admin@gmail.com")
+                {
+                <a data-bs-target="#add-subadmin" data-bs-toggle="modal"><i class="fa-solid fa-plus fs-5 text-primary"></i></a>
+                <partial name="_AddSubAdmin" model="new AddSubAdminAccountInputModel()"/>
+                }
+            </div>
+            <div class="container overflow-y-scroll pe-4" style="height: 350px">   
+                <div class="row border-bottom py-3">
+                    @if (Model.Accounts.Count()>0)
+                    {
+                        @foreach(var account in Model.Accounts)
+                        {
+                             <div class="col-12">
+                                <span>@account.UserName</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                         <h5 class="mt-2 text-center text-muted">No other accounts</h5>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="PartialViews/_ValidationScriptsPartial" />
+}

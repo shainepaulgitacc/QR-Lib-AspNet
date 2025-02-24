@@ -1,0 +1,5 @@
+﻿@model InputUserAttendanceModel
+<form id="form-log-scan" method="post">
+    <input type="hidden" asp-for="User" id="student-id" />
+    <input type="hidden" asp-for="TimeIn" value="@DateTime.Now" />
+</form>
